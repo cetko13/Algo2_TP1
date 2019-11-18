@@ -12,5 +12,7 @@ Array<complejo> _dft( Array<complejo> &x, int flag);//funcion interna, no para e
 Array<complejo> dft( Array<complejo> &x);
 Array<complejo> idft( Array<complejo> &x);
 
+Array<complejo> _fft( Array<complejo> &x, Array<complejo> W, int N);
+Array<complejo> fft( Array<complejo> &x);
 
 #endif

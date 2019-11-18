@@ -18,7 +18,6 @@
 
 using namespace std;
 
-
 template <class T>
 class Array
 {
@@ -34,9 +33,10 @@ public:
 	T & operator[](int);
 	T & operator[](int) const;
 
-	Array<T>& operator*(const T f);
+	Array<T> operator*(const T f);
+	Array<T> operator*(Array<T> A2);
 	Array<T>& operator+=(const Array<T> &initArray);
-	Array<T>& operator+(const Array<T> &initArray);
+	Array<T> operator+(const Array<T> &initArray);
 	Array<T>& operator*=(const T f);
 	void cargar_array(std::istream &iFile, Array<T>*, std::ostream &oFile);
 
@@ -51,6 +51,10 @@ private:
 	int size;
 	T * ptr;
 };
+
+
+template <class T>
+Array<T> concatenar(const Array<T> &A1, const Array<T> &A2);
 
 
 template <class T>
@@ -125,7 +129,7 @@ bool Array<T>::operator== (const Array<T> & initArray)
 }
 
 template <class T>
-Array<T>& Array<T>::operator+(const Array<T> &initArray)
+Array<T> Array<T>::operator+(const Array<T> &initArray)
 {
 	Array<T> outArr = Array(size);
 
@@ -155,13 +159,31 @@ Array<T>& Array<T>::operator+=(const Array<T> &initArray)
 }
 
 template <class T>
-Array<T>& Array<T>::operator*(const T f)
+Array<T> Array<T>::operator*(const T f)
 {
 	Array<T> outArr = Array(size);
 
 	for (int i = 0; i < size; i++)
 	{
 		outArr[i] = ptr[i] * f;
+	}
+
+	return outArr;
+}
+
+template <class T>
+Array<T> Array<T>::operator*(Array<T> A2)
+{
+
+	if(this->getSize()!=A2.getSize()){
+		return Array();
+	}
+	
+	Array<T> outArr = Array(size);
+
+	for (int i = 0; i < size; i++)
+	{
+		outArr[i] = ptr[i] * A2[i];
 	}
 
 	return outArr;
@@ -273,17 +295,23 @@ Array<T> Array<T>::extraer_pares()
 
 	return ArrOut;
 }
-/*
 
 template <class T>
-Array<T> Array<T>::concatenar(const Array<T> &A1, const Array<T> &A2)
+Array<T> concatenar( Array<T> &A1, Array<T> &A2)
 {	
-	sz1=A1.getSize()
-	sz2=A2.getSize();
+	int sz1=A1.getSize();
+	int sz2=A2.getSize();
 
-	Array<T> ArrOut=Array(sz1+sz2);
+	Array<T> ArrOut=Array<T>(sz1+sz2);
 	for(int i=0;i<sz1;i++)
 		ArrOut[i]=A1[i];
+
+	for(int i=sz1;i<sz2+sz1;i++)
+		ArrOut[i]=A2[i-sz1];
+
+	return ArrOut;
+
+
 }
-*/
+
 #endif

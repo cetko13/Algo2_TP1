@@ -35,3 +35,39 @@ Array<complejo> idft(Array<complejo> &x){
 	transf*=(1.0/x.getSize());
 	return transf;
 }
+
+
+Array<complejo> fft(Array<complejo> &x){
+	int N=x.getSize();
+	Array<complejo> W(N);
+	Array<complejo> X(N);
+	double arg=2*PI/N;
+
+	
+	for(int k=1;k<N;k++)	
+		W[k]=complejo(cos(arg*k),sin(arg*k));
+
+	X=_fft(x,W,N);
+	return X;
+}
+
+Array<complejo> _fft(Array<complejo> &x, Array<complejo> W, int N){
+
+	if(N<2)
+		return x;
+
+	Array<complejo> transf = Array<complejo>(N);
+	Array<complejo> pares=x.extraer_pares();
+	Array<complejo> impares=x.extraer_impares(); 
+	
+	pares=_fft(pares,W.extraer_impares(),N/2);
+	impares=_fft(impares,W.extraer_impares(),N/2);
+
+	pares=concatenar(pares,pares);
+	impares=W*concatenar(impares,impares);
+
+	return pares+impares;
+
+
+	//un monton de cosas
+}
