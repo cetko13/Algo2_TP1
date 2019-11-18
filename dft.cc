@@ -42,9 +42,8 @@ Array<complejo> fft(Array<complejo> &x){
 	Array<complejo> W(N);
 	Array<complejo> X(N);
 	double arg=2*PI/N;
-
 	
-	for(int k=1;k<N;k++)	
+	for(int k=0;k<N;k++)	
 		W[k]=complejo(cos(arg*k),sin(arg*k));
 
 	X=_fft(x,W,N);
@@ -59,15 +58,12 @@ Array<complejo> _fft(Array<complejo> &x, Array<complejo> W, int N){
 	Array<complejo> transf = Array<complejo>(N);
 	Array<complejo> pares=x.extraer_pares();
 	Array<complejo> impares=x.extraer_impares(); 
-	
-	pares=_fft(pares,W.extraer_impares(),N/2);
-	impares=_fft(impares,W.extraer_impares(),N/2);
+
+	pares=_fft(pares,W.extraer_pares(),N/2);
+	impares=_fft(impares,W.extraer_pares(),N/2);
 
 	pares=concatenar(pares,pares);
 	impares=W*concatenar(impares,impares);
 
 	return pares+impares;
-
-
-	//un monton de cosas
 }

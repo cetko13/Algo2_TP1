@@ -271,7 +271,7 @@ Array<T>::cargar_array(std::istream &iFile, Array<T> *arr, std::ostream &oFile){
 
 
 template <class T>
-Array<T> Array<T>::extraer_impares()
+Array<T> Array<T>::extraer_pares()
 {
 	int sz=ceil(this->getSize()/2.0);
 	Array<T> ArrOut=Array(sz);
@@ -284,7 +284,7 @@ Array<T> Array<T>::extraer_impares()
 }
 
 template <class T>
-Array<T> Array<T>::extraer_pares()
+Array<T> Array<T>::extraer_impares()
 {
 	int sz=this->getSize()/2;
 	Array<T> ArrOut=Array(sz);

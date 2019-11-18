@@ -28,22 +28,18 @@ int main(int argc, char *argv[]) {
             transformada = idft;
 
 
-    Array <complejo> x;
-    Array <complejo> X;
+    Array <complejo> arr_com;
 
     while(!(*iFile).eof()){
 
-        x.cargar_array (*iFile, &x, *oFile);
+        arr_com.cargar_array (*iFile, &arr_com, *oFile);
 
         if ((*iFile).eof())
             break;
 
-        X=fft(x);
-
-        (*oFile) << "in "<<x<<endl;
-        (*oFile) << "out "<<X<<endl;
-
-           
+        Array<complejo> arrayComplejosTransformados;
+        arrayComplejosTransformados = transformada(arr_com);
+        (*oFile) << arrayComplejosTransformados<<endl;
     }
     return 0;
 
