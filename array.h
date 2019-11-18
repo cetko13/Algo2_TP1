@@ -40,6 +40,9 @@ public:
 	Array<T>& operator*=(const T f);
 	void cargar_array(std::istream &iFile, Array<T>*, std::ostream &oFile);
 
+	Array<T> extraer_impares();
+	Array<T> extraer_pares();
+
 template <class Y>	friend std::istream & operator>>(std::istream &file, Array<Y> &x);
 
 template <class Y> friend std::ostream & operator<<(std::ostream &os, Array<Y> &arr);
@@ -243,4 +246,44 @@ Array<T>::cargar_array(std::istream &iFile, Array<T> *arr, std::ostream &oFile){
 		break;
 	}
 }
+
+
+template <class T>
+Array<T> Array<T>::extraer_impares()
+{
+	int sz=ceil(this->getSize()/2.0);
+	Array<T> ArrOut=Array(sz);
+
+	for(int i=0;i<sz;i++){
+		ArrOut[i]=(*this)[2*i];
+	}
+
+	return ArrOut;
+}
+
+template <class T>
+Array<T> Array<T>::extraer_pares()
+{
+	int sz=this->getSize()/2;
+	Array<T> ArrOut=Array(sz);
+
+	for(int i=0;i<sz;i++){
+		ArrOut[i]=(*this)[2*i+1];
+	}
+
+	return ArrOut;
+}
+/*
+
+template <class T>
+Array<T> Array<T>::concatenar(const Array<T> &A1, const Array<T> &A2)
+{	
+	sz1=A1.getSize()
+	sz2=A2.getSize();
+
+	Array<T> ArrOut=Array(sz1+sz2);
+	for(int i=0;i<sz1;i++)
+		ArrOut[i]=A1[i];
+}
+*/
 #endif
