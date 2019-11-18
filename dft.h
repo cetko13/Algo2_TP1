@@ -14,5 +14,6 @@ Array<complejo> idft( Array<complejo> &x);
 
 Array<complejo> _fft( Array<complejo> &x, Array<complejo> W, int N);
 Array<complejo> fft( Array<complejo> &x);
+Array<complejo> ifft(Array<complejo> &x);
 
 #endif

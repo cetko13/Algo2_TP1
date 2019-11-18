@@ -50,6 +50,20 @@ Array<complejo> fft(Array<complejo> &x){
 	return X;
 }
 
+Array<complejo> ifft(Array<complejo> &x){
+	int N=x.getSize();
+	Array<complejo> W(N);
+	Array<complejo> X(N);
+	double arg=2*PI/N;
+	
+	for(int k=0;k<N;k++)	
+		W[k]=complejo(cos(arg*k),-sin(arg*k));
+
+	X=_fft(x,W,N);
+	X*=(1.0/N);
+	return X;
+}
+
 Array<complejo> _fft(Array<complejo> &x, Array<complejo> W, int N){
 
 	if(N<2)

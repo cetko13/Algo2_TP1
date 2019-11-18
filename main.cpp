@@ -41,7 +41,11 @@ int main(int argc, char *argv[]) {
         X=fft(x);
 
         (*oFile) << "in "<<x<<endl;
-        (*oFile) << "out "<<X<<endl;
+        (*oFile) << "fft "<<X<<endl;
+        
+        X=ifft(x);
+        (*oFile) << "ifft "<<X<<endl;
+        
 
            
     }
