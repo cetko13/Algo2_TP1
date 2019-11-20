@@ -10,6 +10,8 @@
 #include <string>
 
 #include "cmdline.h"
+#include "leer_cmdline.h"
+#include "transformadas.h"
 
 using namespace std;
 
@@ -49,7 +51,7 @@ static void opt_method(string const &);
 static option_t options[] = {
 	{1, "i", "input", "-", opt_input, OPT_DEFAULT},
 	{1, "o", "output", "-", opt_output, OPT_DEFAULT},
-	{1, "m", "method", "D", opt_method, OPT_DEFAULT},
+	{1, "m", "method", "F", opt_method, OPT_DEFAULT},
 	{0, },
 };
 
@@ -57,7 +59,7 @@ static istream *iss = 0;	// Input Stream (clase para manejo de los flujos de ent
 static ostream *oss = 0;	// Output Stream (clase para manejo de los flujos de salida)
 static fstream ifs; 		// Input File Stream (derivada de la clase ifstream que deriva de istream para el manejo de archivos)
 static fstream ofs;		// Output File Stream (derivada de la clase ofstream que deriva de ostream para el manejo de archivos)
-static int metodo;
+static metodo_t metodo;
 
 
 /*****************************************************/
@@ -116,10 +118,19 @@ static void opt_output(string const &arg)
 static void opt_method(string const &arg) {
     // Si el metodo es D, se introduce 1 indicando DFT. De lo contrario,
     // -1 indicando IDFT.
-    if (arg == "D" || arg == "dft" || arg == "DFT") //no se reconocen otras posibilidades
-        metodo = 1;
-    else if (arg == "idft" || arg == "IDFT")
-        metodo = -1;
+    if (arg == "F" || arg == "fft" || arg == "FFT") //no se reconocen otras posibilidades
+        metodo = FFT;
+    else if (arg == "dft" || arg == "DFT")
+        metodo = DFT;
+	else if (arg == "ifft" || arg == "IFFT")
+        metodo = IFFT;
+	else if (arg == "idft" || arg == "IDFT")
+        metodo = IDFT;
+	/*else if (arg == "fft-iter" || arg == "FFT-ITER")
+        metodo = 5;
+	else if (arg == "ifft-iter" || arg == "IFFT-ITER")
+        metodo = 6;
+		*/
     else {
         cerr << "cannot recognize "
 		     << arg
@@ -130,7 +141,7 @@ static void opt_method(string const &arg) {
 
 }
 
-int leer_cmdline (int argc, char * argv[], istream **file_in, ostream **file_out){
+metodo_t leer_cmdline (int argc, char * argv[], istream **file_in, ostream **file_out){
     cmdline cmdl(options);	// Objeto con parametro tipo option_t (struct) declarado globalmente.
 	cmdl.parse(argc, argv); // llama a opt_...
     (*file_in) = iss;

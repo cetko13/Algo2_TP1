@@ -6,10 +6,11 @@
 #include <iomanip>
 #include <sstream>
 #include <cstdlib>
-#include "cmdline.h"
+
+#include "transformadas.h"
 
 using namespace std;
 
-int leer_cmdline (int, char **, istream**, ostream**);
+metodo_t leer_cmdline (int, char **, istream**, ostream**);
 
 #endif

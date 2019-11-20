@@ -43,6 +43,8 @@ public:
 	Array<T> extraer_impares();
 	Array<T> extraer_pares();
 
+	Array<T> padear_con_ceros(Array<T> &A);
+	
 template <class Y>	friend std::istream & operator>>(std::istream &file, Array<Y> &x);
 
 template <class Y> friend std::ostream & operator<<(std::ostream &os, Array<Y> &arr);
@@ -310,6 +312,21 @@ Array<T> concatenar( Array<T> &A1, Array<T> &A2)
 		ArrOut[i]=A2[i-sz1];
 
 	return ArrOut;
+
+
+}
+
+template <class T>
+Array<T> padear_con_ceros(Array<T> &A)
+{
+	double sz1 = A.getSize();
+
+	int log_sz1 = ceil(log2(sz1));
+
+	int sz2 = pow(2, log_sz1) - sz1;
+	Array<T> arrAux = Array<T>(sz2);
+
+	return concatenar(A,arrAux);
 
 
 }
