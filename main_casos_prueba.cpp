@@ -1,8 +1,9 @@
 #include "complejo.h"
 #include "array.h"
-#include "dft.h"
+#include "transformadas.h"
 #include "leer_cmdline.h"
 #include "calcular_error.h"
+
 
 #include <iostream>
 #include <iomanip>
@@ -12,6 +13,7 @@
 #include <sstream>
 #include <fstream>
 #include <math.h>
+#include <map>
 
 using namespace std;
 
@@ -21,27 +23,33 @@ int main(int argc, char *argv[]) {
     ostream *oFile;
     ifstream iFileReferencia_dft("referencia_dft.txt");
     ifstream iFileReferencia_idft("referencia_idft.txt");
-    Array<complejo> & (*transformada)(Array<complejo> &x);
+    Array<complejo> (*transformada)(Array<complejo> &x);
+    diccionario_transformadas_t dict;
 
-    int metodo_elegido = leer_cmdline (argc, argv, &iFile, &oFile);
+    metodo_t metodo_elegido;
+    metodo_elegido = leer_cmdline (argc, argv, &iFile, &oFile);
 
-        if (metodo_elegido == 1)
-            transformada = dft;
-        else if (metodo_elegido == -1)
-            transformada = idft;
+    transformadas* transf=dict.dict[metodo_elegido];
 
-
+    Array <complejo> x;
+    Array <complejo> X;
     Array <complejo> arr_com;
 
     while(!(*iFile).eof()){
 
-        arr_com.cargar_array(*iFile, &arr_com, *oFile);
+        x.cargar_array (*iFile, &x, *oFile);
 
         if ((*iFile).eof())
             break;
 
-        Array<complejo>& arrayComplejosTransformados = transformada(arr_com);
-        (*oFile) << arrayComplejosTransformados << endl;
+        double pot = log2(x.getSize());
+
+        if (pot != floor(pot))
+            x = padear_con_ceros(x);
+
+        X=transf->transformar(x);
+
+        (*oFile) << X <<endl;
 
         ostream *errFile;
         fstream eF;
@@ -49,14 +57,14 @@ int main(int argc, char *argv[]) {
         eF.open(arg.c_str(), ios::out);
         errFile = &eF;
 
-        if(metodo_elegido == 1)
+        if(metodo_elegido == DFT || metodo_elegido == FFT)
             arr_com.cargar_array(iFileReferencia_dft, &arr_com, *errFile);
-        else if(metodo_elegido == -1)
+        else if(metodo_elegido == IDFT || metodo_elegido == IFFT)
             arr_com.cargar_array(iFileReferencia_idft, &arr_com, *errFile);
         else
             cerr << "method not found" << endl;
 
-        if(calculador_error(arrayComplejosTransformados, arr_com) == true)
+        if(calculador_error(X, arr_com) == true)
         {
             (*oFile) << "good" << endl;
         }
@@ -65,7 +73,6 @@ int main(int argc, char *argv[]) {
             (*oFile) << "bad" << endl;
         }
 
-        delete &arrayComplejosTransformados;
     }
     return 0;
 }
