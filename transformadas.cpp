@@ -7,7 +7,7 @@
 
 using namespace std;	
 
-Array<complejo> _fft(Array<complejo> &x, Array<complejo> W, int N){
+Array<complejo> transformadas::_fft(Array<complejo> &x, Array<complejo> W, int N){
 
 	if(N<2)
 		return x;
@@ -25,7 +25,7 @@ Array<complejo> _fft(Array<complejo> &x, Array<complejo> W, int N){
 	return pares+impares;
 }
 
-Array<complejo> _dft(Array <complejo> &x, int flag){ //funcion de uso interno/implementacion, no para el usuario
+Array<complejo> transformadas::_dft(Array <complejo> &x, int flag){ //funcion de uso interno/implementacion, no para el usuario
 //recibe un array de complejos y un flag que conjuga W_nk
 //realiza dft (1) o idft(-1) según el flag.
 

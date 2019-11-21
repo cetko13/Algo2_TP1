@@ -20,6 +20,10 @@ typedef enum {
 
 class transformadas{
 
+protected:
+	Array<complejo> _fft(Array<complejo> &x, Array<complejo> W, int N);
+	Array<complejo> _dft(Array <complejo> &x, int flag);
+
 public:
 	virtual Array<complejo> transformar(Array<complejo> &x) = 0;
 };
