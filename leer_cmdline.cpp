@@ -126,11 +126,6 @@ static void opt_method(string const &arg) {
         metodo = IFFT;
 	else if (arg == "idft" || arg == "IDFT")
         metodo = IDFT;
-	/*else if (arg == "fft-iter" || arg == "FFT-ITER")
-        metodo = 5;
-	else if (arg == "ifft-iter" || arg == "IFFT-ITER")
-        metodo = 6;
-		*/
     else {
         cerr << "cannot recognize "
 		     << arg

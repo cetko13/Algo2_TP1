@@ -41,8 +41,9 @@ int main(int argc, char *argv[]) {
 
         double pot = log2(x.getSize());
 
-        if (pot != floor(pot))
-            x = padear_con_ceros(x);
+        if(metodo_elegido == FFT || metodo_elegido ==IFFT)
+            if (pot != floor(pot))
+                x = padear_con_ceros(x);
 
         X=transf->transformar(x);
 
@@ -53,39 +54,3 @@ int main(int argc, char *argv[]) {
     return 0;
 
 }
-
-/*
-    int metodo_elegido = leer_cmdline (argc, argv, &iFile, &oFile);
-
-        if (metodo_elegido == 1)
-            transformada = dft;
-        else if (metodo_elegido == -1)
-            transformada = idft;
-*/
-/*
-    Array <complejo> x;
-    Array <complejo> X;
-
-    while(!(*iFile).eof()){
-
-        x.cargar_array (*iFile, &x, *oFile);
-
-        if ((*iFile).eof())
-            break;
-
-        cerr<<"asd"<<endl;
-
-        X=transf->transformar(x);
-
-        cerr<<"pla"<<endl;
-
-        (*oFile) << "in "<<x<<endl;
-        (*oFile) << "fft "<<X<<endl;
-        
-
-        (*oFile) << "ifft "<<X<<endl;
-  
-
-           
-    }
-  */  
