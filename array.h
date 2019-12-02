@@ -43,8 +43,10 @@ public:
 	Array<T> extraer_impares();
 	Array<T> extraer_pares();
 
+	int duplicar_tamanio();
+
 	Array<T> padear_con_ceros(Array<T> &A);
-	
+
 template <class Y>	friend std::istream & operator>>(std::istream &file, Array<Y> &x);
 
 template <class Y> friend std::ostream & operator<<(std::ostream &os, Array<Y> &arr);
@@ -180,7 +182,7 @@ Array<T> Array<T>::operator*(Array<T> A2)
 	if(this->getSize()!=A2.getSize()){
 		return Array();
 	}
-	
+
 	Array<T> outArr = Array(size);
 
 	for (int i = 0; i < size; i++)
@@ -219,6 +221,8 @@ template <class T>
 std::istream & operator>>(std::istream &file, Array<T> &x)//lee todos los valores de un stream
 {
 	T data ;
+	int used = 0;
+	int total=0;
 
 	while(!(file.eof())){
 		file >> data; //lee de a un complejo y ve que no haya error
@@ -226,19 +230,16 @@ std::istream & operator>>(std::istream &file, Array<T> &x)//lee todos los valore
 		if(file.fail()){
 			return file;
 		}
-
-		else{
-			Array <T> x_aux(x.getSize() + 1);
-
-			for (int i = 0; i < x.getSize(); i++){
-				x_aux[i] = x[i];
-			}
-
-			x_aux[x.getSize()] = data;
-			x = x_aux;
+		cerr<<used<<"u   "<<total<<"t   "<<endl;
+		if(used == total){
+                x.duplicar_tamanio();
+                cerr<<"if "<<endl<<x<<endl;
+                total=1+2*total;
 		}
+		x[used]=data;
+		used++;
+		cerr<<x<<endl;
 	}
-
 	return file;
 }
 
@@ -300,7 +301,7 @@ Array<T> Array<T>::extraer_impares()
 
 template <class T>
 Array<T> concatenar( Array<T> &A1, Array<T> &A2)
-{	
+{
 	int sz1=A1.getSize();
 	int sz2=A2.getSize();
 
@@ -328,7 +329,28 @@ Array<T> padear_con_ceros(Array<T> &A)
 
 	return concatenar(A,arrAux);
 
+}
+
+
+
+template <class T>
+int Array<T>::duplicar_tamanio()
+{
+	T* aux=new T[2*size+1];
+	
+	for (int i = 0; i < size; i++)
+	{	
+		cerr<<i<<" . "<<size<<endl;
+		aux[i]=ptr[i];
+	}
+
+	delete[] ptr;
+	ptr=aux;
+	size=2*size+1;
+
+	return size;
 
 }
+
 
 #endif

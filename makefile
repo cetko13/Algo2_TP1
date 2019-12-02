@@ -1,5 +1,5 @@
 # makefile
-CFLAGS = -Wall -pedantic -I .
+CFLAGS = -Wall -pedantic -I . -g
 CC = g++
 
 # all: compila todo el programa y elimina los archivos objeto
